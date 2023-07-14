@@ -16,7 +16,7 @@ def action(msg):
         telegram_bot.sendDocument(chat_id, document=open('/home/pi/Aisha.py'))
     elif command == '/audio':
         telegram_bot.sendAudio(chat_id, audio=open('/home/pi/test.mp3'))
-telegram_bot = telepot.Bot('468382312:AAFhURMxpVlMWEdFzbIQLszBPFEUpAeOLFQ')
+telegram_bot = telepot.Bot('6356623443:AAFRCK4VNdkHsU1nJQwvihRHF72jSzrXF9U')
 print (telegram_bot.getMe())
 MessageLoop(telegram_bot, action).run_as_thread()
 print ('Up and Running....')
