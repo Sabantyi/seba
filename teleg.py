@@ -1,5 +1,4 @@
 import time, datetime
-from time import sleep
 import telepot
 from telepot.loop import MessageLoop
 import requests
@@ -20,20 +19,30 @@ def doctor():
     soup = BeautifulSoup(url.text, features="lxml")
     vot = soup.find_all(class_="hours clearfix")
 
+    flag_i = 0
+    flag_name_a = 0
+
     name_doc = soup.find('span', class_="last-name")
     name_doc_final = name_doc.text
     #print(name_doc_final)
 
     for i in vot:
         name_a = i.find_all("a")
+        flag_i + 1
         if name_a == []:
-            pass
+            flag_i + 1
         else:
             for sap in name_a:
                 hour_pr = sap.attrs
                 date_doc = hour_pr['data-date']
                 time_doc = hour_pr['data-time']
                 yield date_doc, time_doc
+    if flag_name_a == flag_i:
+        date_doc = "Бродовикова "
+        time_doc = "Записи нет"
+        yield date_doc, time_doc
+
+
 
 def action(msg):
     global name_doc_final
@@ -44,7 +53,7 @@ def action(msg):
         #telegram_bot.sendMessage (chat_id, str(name_doc_final))
         flag_name = True
         for date_doc, time_doc in doctor():
-            print(date_doc, time_doc, name_doc_final)
+            #print(date_doc, time_doc, name_doc_final)
             if flag_name == True:
                 telegram_bot.sendMessage(chat_id, str(name_doc_final))
                 flag_name = False
@@ -58,7 +67,7 @@ def action(msg):
     # elif command == '/audio':
     #     telegram_bot.sendAudio(chat_id, audio=open('/home/pi/test.mp3'))
 
-telegram_bot = telepot.Bot('6356623443:AAFRCK4VNdkHsU1nJQwvihRHF72jSzrXF9U')
+telegram_bot = telepot.Bot('5339647993:AAGT_fR_R8ptXMp9gzaBD2fSBt-VzfcFuF8') #5339647993:AAGT_fR_R8ptXMp9gzaBD2fSBt-VzfcFuF8    /////   6356623443:AAFRCK4VNdkHsU1nJQwvihRHF72jSzrXF9U
 print (telegram_bot.getMe())
 MessageLoop(telegram_bot, action).run_as_thread()
 print ('Up and Running....')
